@@ -6,17 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import solution.app.data.ClientDiscountDTO;
 import solution.app.data.carResultDTO;
 import solution.app.service.CarValueService;
-import solution.app.service.ClientService;
-import solution.repository.entity.CarResult;
-import solution.repository.entity.Client;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -27,7 +23,7 @@ import java.util.List;
 public class CarValueController {
     private final CarValueService carValueService;
 
-    @GetMapping(value = "/getResults")
+    @GetMapping(value = "/get-results")
     public ResponseEntity<List<carResultDTO>> getQueryResults(@RequestParam Long query_id) {
     return ResponseEntity.ok(carValueService.getResults(query_id));
     }
@@ -35,6 +31,12 @@ public class CarValueController {
     public ResponseEntity<List<carResultDTO>> getAll() {
         return ResponseEntity.ok(carValueService.getAll());
     }
+
+    @PostMapping("/call-data")
+    public ResponseEntity<Long> getData(@RequestParam Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
+        return ResponseEntity.ok(carValueService.saveResults(yearFrom, yearTo, mark, model));
+    }
+
 }
 //    @PostMapping(value = "/discount")
 //    public ResponseEntity<Void> storeClientDiscount(@RequestBody ClientDiscountDTO clientDiscountDTO) {

@@ -18,7 +18,8 @@ import java.math.BigDecimal;
 public class CarQuery {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long que_id;
+    @Column(name = "que_id")
+    private Long queId;
 
     @Column(name = "source")
     private String source;
@@ -32,5 +33,7 @@ public class CarQuery {
     private Long makeDateFrom;
     @Column(name = "makeDateTo")
     private Long makeDateTo;
+
+
 
 }

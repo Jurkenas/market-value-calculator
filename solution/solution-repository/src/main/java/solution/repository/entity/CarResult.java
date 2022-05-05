@@ -22,7 +22,6 @@ public class CarResult {
     private Long res_id;
 
     @Column(name = "res_que_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long resQueId;
 
     @Column(name = "price")

@@ -42,7 +42,7 @@ public class DataLoader implements ApplicationRunner {
 //        carResult3.setResQueId(2L);
 //        carResults.add(carResult3);
 
-        carValueService.storeResultsDummyList(carValueService.getResults());
+//        carValueService.storeResultsDummyList(carValueService.getResults(2002, 2012, "Kia", "Sportage"));
         //     carValueService.storeResultsDummy(carResult);
 //        Client client = clientService.getExistingOrCreateNewClient(42L);
 //        clientService.storeClientDiscount(client, BigDecimal.valueOf(0.05));
