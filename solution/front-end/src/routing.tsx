@@ -6,7 +6,7 @@ import Loader from './components/shared/Loader/Loader';
 import Layout from './components/shared/Layout/Layout';
 import { MenuItem } from './components/shared/Menu/Menu';
 import store from './commons/redux/store';
-import HomePage from './components/Pages/HomePage';
+import HomePage from './components/Pages/HomePage/HomePage';
 import NotFoundPage from './components/Pages/NotFoundPage/NotFoundPage';
 
 export const HOME_PAGE_PATH = '/';
