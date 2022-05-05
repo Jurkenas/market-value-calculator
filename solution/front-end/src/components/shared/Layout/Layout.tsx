@@ -35,7 +35,7 @@ function Layout({ menuItems, children, history }: LayoutProps) {
         ) : null}
       </Header>
       <Content className={styles['content']}>{children}</Content>
-      <Footer style={{ textAlign: 'center' }}>Marius Jurkėnas ©2022</Footer>
+      <Footer style={{ textAlign: 'center' }}>Hakatonas ©2022</Footer>
     </AntLayout>
   );
 }
