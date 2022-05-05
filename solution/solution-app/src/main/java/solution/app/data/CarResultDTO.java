@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
-public class SearchParamsDTO {
-    private Integer yearFrom;
-    private Integer yearTo;
-    private String make;
-    private String model;
+public class CarResultDTO {
 
+    private BigDecimal price;
+    private String url;
+    private String description;
 }
