@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col } from 'antd';
+import { Typography, Row, Col, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import InputAutoComplete from '../../shared/Input/AutoComplete/AutoComplete';
 import * as styles from './HomePage.module.scss';
@@ -10,10 +10,11 @@ const { Title } = Typography;
 function HomePage() {
   return (
     <Row>
-      <Col span={18} style={{ margin: 'auto' }}>
-        <Title className={styles['title']} level={2} data-testid="home-page">
+      <Col className={styles['col2']} span={14}>
+        <Title className={styles['title']} level={3} data-testid="home-page">
           Paskaičiuokite automobilio vertę
         </Title>
+        <Divider />
         <Row>
           <Title level={5}>Pagrindiniai automobilio duomenys </Title>
         </Row>
@@ -30,15 +31,7 @@ function HomePage() {
           </Col>
         </Row>
         <Row>
-          <Col
-            span={24}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              margin: 'auto',
-              marginTop: '5px',
-            }}
-          >
+          <Col span={24} className={styles['col']}>
             <Link to="/paskaiciuotaverte">
               <Button>Skaičiuoti</Button>
             </Link>
