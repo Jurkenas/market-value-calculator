@@ -7,4 +7,5 @@ import solution.repository.entity.Client;
 
 @Repository
 public interface CarQueryRepository extends JpaRepository<CarQuery, Long> {
+    CarQuery findFirstByQueId(Long queryId);
 }
