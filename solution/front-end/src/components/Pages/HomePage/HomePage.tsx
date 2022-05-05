@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
 import InputAutoComplete from '../../shared/Input/AutoComplete/AutoComplete';
 import * as styles from './HomePage.module.scss';
 import Button from '../../shared/Input/Button/Button';
@@ -38,7 +39,9 @@ function HomePage() {
               marginTop: '5px',
             }}
           >
-            <Button>Skaičiuoti</Button>
+            <Link to="/paskaiciuotaverte">
+              <Button>Skaičiuoti</Button>
+            </Link>
           </Col>
         </Row>
       </Col>
