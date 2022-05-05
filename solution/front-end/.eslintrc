@@ -1,0 +1,41 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["jest"],
+  "extends": ["airbnb", "eslint:recommended", "plugin:jest/recommended"],
+  "rules": {
+    "react/jsx-filename-extension": [2, { "extensions": [".tsx", ".ts", ".jsx", ".js"] }],
+    "camelcase": 2,
+    "dot-notation": [0, { "allowKeywords": false }],
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "comma-dangle": "off",
+    "object-curly-newline": "off",
+    "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}

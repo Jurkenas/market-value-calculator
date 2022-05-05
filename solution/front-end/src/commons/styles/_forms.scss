@@ -1,0 +1,39 @@
+@import './colors';
+@import './spacing';
+
+@mixin amount-input {
+  display: flex;
+  flex-wrap: wrap;
+
+  :global {
+    span {
+      flex: 5;
+    }
+
+    .ant-select {
+      flex: 1;
+    }
+  }
+}
+
+@mixin form-error {
+  background-color: $error-red;
+  color: $white;
+  width: 100%;
+  margin-bottom: spacer(1);
+  padding: 0 spacer(1);
+}
+
+@mixin input-error {
+  :global {
+    .ant-input {
+      background-color: $white;
+      border-color: $error-red;
+
+      &:focus {
+        border-color: $error-red-focus;
+        box-shadow: 0 0 0 2px $error-box-shadow;
+      }
+    }
+  }
+}

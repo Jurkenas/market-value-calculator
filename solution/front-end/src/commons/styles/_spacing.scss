@@ -1,0 +1,3 @@
+@function spacer($spacer) {
+  @return round($spacer) * 0.5rem;
+}

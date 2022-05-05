@@ -1,0 +1,37 @@
+@import '../../../commons/styles/colors';
+@import '../../../commons/styles/spacing';
+@import '../../../commons/styles/breakpoints';
+
+:global {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  .ant-layout-header {
+    padding: 0 spacer(2);
+
+    @include md {
+      padding: 0 spacer(4);
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 spacer(2);
+  flex-shrink: 0;
+  overflow: auto;
+}
+
+.layout {
+  height: 100%;
+}
+
+.alert {
+  z-index: 2;
+}

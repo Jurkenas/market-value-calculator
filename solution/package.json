@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-tsparticles": "^1.43.1",
+    "tsparticles-preset-stars": "^1.43.1"
+  }
+}

@@ -1,0 +1,44 @@
+/*
+    Breakpoints values matching the onse used in ant.design
+    
+    More info:
+    https://ant.design/components/layout/#breakpoint-width
+*/
+
+$screen-xs-min: '480px';
+$screen-sm-min: '576px';
+$screen-md-min: '768px';
+$screen-lg-min: '992px';
+$screen-xl-min: '1200px';
+$screen-xxl-min: '1600px;';
+
+@mixin xs {
+  @warn "This should never be used. Use mobile-first approach";
+  @media (max-width: #{$screen-xs-min}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}

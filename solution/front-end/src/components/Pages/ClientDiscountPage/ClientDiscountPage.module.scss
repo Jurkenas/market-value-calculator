@@ -1,0 +1,13 @@
+@import '../../../commons/styles/colors';
+@import '../../../commons/styles/spacing';
+@import '../../../commons/styles/containers';
+
+.container {
+  @include form-container;
+}
+
+label {
+  margin-top: spacer(1);
+  display: block;
+  flex-basis: 100%;
+}
