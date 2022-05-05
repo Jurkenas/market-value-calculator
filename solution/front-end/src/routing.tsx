@@ -12,6 +12,7 @@ import NotFoundPage from './components/Pages/NotFoundPage/NotFoundPage';
 export const HOME_PAGE_PATH = '/';
 export const CLIENT_DISCOUNT_PAGE_PATH = '/client';
 export const CALCULATED_VALUE_PAGE_PATH = '/paskaiciuotaverte';
+export const CALCULATED_VALUE_PAGE__DETAILS_TABLE_PATH = '/detaliInfo';
 
 const ClientDiscountPage = React.lazy(
   () => import('./components/Pages/ClientDiscountPage/ClientDiscountPage')
@@ -19,12 +20,19 @@ const ClientDiscountPage = React.lazy(
 const CalculatedValuePage = React.lazy(
   () => import('./components/Pages/CalculatedValuePage/CalculatedValuePage')
 );
+const CalculatedValuePageDetailsTable = React.lazy(
+  () => import('./components/Pages/CalculatedValuePageDetailsTable/CalculatedValuePageDetailsTable')
+);
 
 export const routes = (
   <Routes>
     <Route path={HOME_PAGE_PATH} element={<HomePage />} />
     <Route path={CLIENT_DISCOUNT_PAGE_PATH} element={<ClientDiscountPage />} />
     <Route path={CALCULATED_VALUE_PAGE_PATH} element={<CalculatedValuePage />} />
+    <Route
+      path={CALCULATED_VALUE_PAGE__DETAILS_TABLE_PATH}
+      element={<CalculatedValuePageDetailsTable />}
+    />
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
