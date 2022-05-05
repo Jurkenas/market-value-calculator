@@ -6,9 +6,9 @@ import * as styles from './CalculatedValuePageDetailsTable.module.scss';
 const { Title } = Typography;
 const columns = [
   {
-    title: 'Modelis',
-    dataIndex: 'modelis',
-    key: 'modelis',
+    title: 'Apibūdinimas',
+    dataIndex: 'apibūdinimas',
+    key: 'apibūdinimas',
   },
   {
     title: 'Kaina',
@@ -16,57 +16,37 @@ const columns = [
     key: 'kaina',
   },
   {
-    title: 'kW',
-    dataIndex: 'kW',
-    key: 'kW',
-  },
-  {
-    title: 'Variklio tipas',
-    dataIndex: 'variklis',
-    key: 'variklis',
-  },
-  {
-    title: 'Kilometražas',
-    dataIndex: 'kilometražas',
-    key: 'kilometražas',
+    title: 'URL',
+    dataIndex: 'url',
+    key: 'url',
   },
 ];
 
 const data = [
   {
-    modelis: 'Audi A100',
+    apibūdinimas: 'Audi A100, kažkas, kažkas',
     kaina: 10000,
-    kW: 32,
-    variklis: 1.8,
-    kilometražas: '123k',
+    url: 'kažkoks linkas',
   },
   {
-    modelis: 'Audi A100',
+    apibūdinimas: 'Audi A100, kažkas, kažkas',
     kaina: 10000,
-    kW: 32,
-    variklis: 1.8,
-    kilometražas: '123k',
+    url: 'kažkoks linkas',
   },
   {
-    modelis: 'Audi A100',
+    apibūdinimas: 'Audi A100, kažkas, kažkas',
     kaina: 10000,
-    kW: 32,
-    variklis: 1.8,
-    kilometražas: '123k',
+    url: 'kažkoks linkas',
   },
   {
-    modelis: 'Audi A100',
+    apibūdinimas: 'Audi A100, kažkas, kažkas',
     kaina: 10000,
-    kW: 32,
-    variklis: 1.8,
-    kilometražas: '123k',
+    url: 'kažkoks linkas',
   },
   {
-    modelis: 'Audi A100',
+    apibūdinimas: 'Audi A100, kažkas, kažkas',
     kaina: 10000,
-    kW: 32,
-    variklis: 1.8,
-    kilometražas: '123k',
+    url: 'kažkoks linkas',
   },
 ];
 
