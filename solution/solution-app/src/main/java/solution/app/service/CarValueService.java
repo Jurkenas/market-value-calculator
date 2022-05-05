@@ -5,8 +5,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import solution.app.data.QueryResultDTO;
 import solution.app.data.SearchParamsDTO;
-import solution.app.data.carResultDTO;
+import solution.app.data.CarResultDTO;
 import solution.repository.entity.CarQuery;
 import solution.repository.entity.CarResult;
 import solution.repository.repository.CarQueryRepository;
@@ -14,11 +15,11 @@ import solution.repository.repository.CarResultRepository;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.UUID.randomUUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,21 +30,20 @@ public class CarValueService {
     private final CarResultRepository carResultRepository;
 
 
-    public List<carResultDTO> getResults(Long queryId) {
-        return carResultRepository.getAllByResQueId(queryId).stream()
+    public QueryResultDTO getResults(Long queryId) {
+        return getQueryResult(carResultRepository.getAllByResQueId(queryId).stream()
                 .map(result ->
-                        carResultDTO.builder()
+                        CarResultDTO.builder()
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
                                 .build())
-                .collect(Collectors.toList());
-        //  return new ArrayList<carResultDTO>();
+                .collect(Collectors.toList()), queryId);
     }
 
-    public List<carResultDTO> getAll() {
+    public List<CarResultDTO> getAll() {
         return carResultRepository.findAll().stream().map(result ->
-                        carResultDTO.builder()
+                        CarResultDTO.builder()
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
@@ -147,9 +147,9 @@ public class CarValueService {
     }
 
     public Long saveResults(SearchParamsDTO searchParamsDTO) {
-        Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMark(), searchParamsDTO.getModel());
+        Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel());
         try {
-            storeResultsDummyList(getResults(queryId, searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMark(), searchParamsDTO.getModel()));
+            storeResultsDummyList(getResults(queryId, searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -165,6 +165,76 @@ public class CarValueService {
         carQuery.setModel(model);
         CarQuery savedQuery =  carQueryRepository.saveAndFlush(carQuery);
         return savedQuery.getQueId();
+    }
+
+//    private Integer getAverageStrems(List<CarResultDTO> carResultDTO){
+//        return carResultDTO.stream()
+//                .filter(result -> result.getPrice()!= new BigDecimal("0.00"))
+//                .mapToInt(result -> result.getPrice():: intValue)
+//                .average();
+//    }
+    private BigDecimal getAverage(List<CarResultDTO> carResultDTO){
+        int counter=0;
+        int allCars=0;
+        BigDecimal sum=BigDecimal.ZERO;
+        BigDecimal average=BigDecimal.ZERO;
+        BigDecimal tmp=BigDecimal.ZERO;
+        MathContext m = new MathContext(0);
+
+        for (int i = 0; i < carResultDTO.size(); i++) {
+
+            if (carResultDTO.get(i).getPrice().intValue()!=0){
+                tmp = carResultDTO.get(i).getPrice();
+                sum=sum.add(tmp);
+            }else {
+                counter++;
+            }
+        }
+        allCars=carResultDTO.size() - counter;
+
+        average=sum.divide(BigDecimal.valueOf(allCars), 2, RoundingMode.HALF_UP);
+
+        return average;
+    }
+    public QueryResultDTO getQueryResult(List<CarResultDTO> carResultDTO, Long queryId){
+//        int counter=0;
+//        int allCars=0;
+//        BigDecimal sum=BigDecimal.ZERO;
+//        BigDecimal average=BigDecimal.ZERO;
+
+//        for (int i = 0; i < carResultDTO.size(); i++) {
+//
+//            BigDecimal tmp;
+//            if (carResultDTO.get(i).getPrice()!=null){
+//                tmp = carResultDTO.get(i).getPrice();
+//                sum.add(tmp);
+//                counter++;
+//            }
+//            if(carResultDTO.get(i).getPrice()!=null){
+//                allCars=carResultDTO.size() - counter;
+//            }
+//        }
+//
+//        average=sum.divide(BigDecimal.valueOf(allCars));
+//        average.setScale(2, BigDecimal.ROUND_UP);
+//
+//        QueryResult queryResult = new QueryResult();
+//
+//        queryResult.setCarList(carResultDTO);
+//
+        QueryResultDTO queryResult = new QueryResultDTO();
+        queryResult.setAveragePrice(getAverage(carResultDTO));
+        queryResult.setCarList(carResultDTO);
+
+
+        CarQuery carQuery=carQueryRepository.findFirstByQueId(queryId);
+        queryResult.setSearchParams(SearchParamsDTO.builder()
+                        .yearFrom(Math.toIntExact(carQuery.getMakeDateFrom()))
+                        .yearTo(Math.toIntExact(carQuery.getMakeDateTo()))
+                        .make(carQuery.getMake())
+                        .model(carQuery.getModel())
+                .build());
+        return queryResult;
     }
 
 
