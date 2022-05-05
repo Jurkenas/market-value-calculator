@@ -3,17 +3,30 @@ import { Col, Row, Typography } from 'antd';
 import DetailsTable from '../../shared/Table/Table';
 import * as styles from './CalculatedValuePageDetailsTable.module.scss';
 
+export type Column = {
+  title: string;
+  dataIndex: string;
+  key: string;
+};
+
+export type Vehicle = {
+  description: string;
+  price: number;
+  url: string;
+};
+
 const { Title } = Typography;
-const columns = [
+
+const columns: Column[] = [
   {
     title: 'Apibūdinimas',
-    dataIndex: 'apibūdinimas',
-    key: 'apibūdinimas',
+    dataIndex: 'description',
+    key: 'description',
   },
   {
     title: 'Kaina',
-    dataIndex: 'kaina',
-    key: 'kaina',
+    dataIndex: 'price',
+    key: 'price',
   },
   {
     title: 'URL',
@@ -22,30 +35,30 @@ const columns = [
   },
 ];
 
-const data = [
+const data: Vehicle[] = [
   {
-    apibūdinimas: 'Audi A100, kažkas, kažkas',
-    kaina: 10000,
+    description: 'Audi A100, kažkas, kažkas',
+    price: 10000,
     url: 'kažkoks linkas',
   },
   {
-    apibūdinimas: 'Audi A100, kažkas, kažkas',
-    kaina: 10000,
+    description: 'Audi A100, kažkas, kažkas',
+    price: 10000,
     url: 'kažkoks linkas',
   },
   {
-    apibūdinimas: 'Audi A100, kažkas, kažkas',
-    kaina: 10000,
+    description: 'Audi A100, kažkas, kažkas',
+    price: 10000,
     url: 'kažkoks linkas',
   },
   {
-    apibūdinimas: 'Audi A100, kažkas, kažkas',
-    kaina: 10000,
+    description: 'Audi A100, kažkas, kažkas',
+    price: 10000,
     url: 'kažkoks linkas',
   },
   {
-    apibūdinimas: 'Audi A100, kažkas, kažkas',
-    kaina: 10000,
+    description: 'Audi A100, kažkas, kažkas',
+    price: 10000,
     url: 'kažkoks linkas',
   },
 ];
