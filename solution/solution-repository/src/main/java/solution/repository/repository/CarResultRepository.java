@@ -11,6 +11,4 @@ import java.util.List;
 public interface CarResultRepository extends JpaRepository<CarResult, Long> {
     List<CarResult> getAllByResQueId(Long id);
 
-
-//    boolean existsByClientId(Long clientId);
 }

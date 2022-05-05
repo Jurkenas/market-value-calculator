@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import solution.app.data.SearchParamsDTO;
 import solution.app.data.carResultDTO;
 import solution.repository.entity.CarQuery;
 import solution.repository.entity.CarResult;
@@ -145,10 +146,10 @@ public class CarValueService {
         return carList;
     }
 
-    public Long saveResults(Integer yearFrom, Integer yearTo, String mark, String model) {
-        Long queryId = saveCarQuery(yearFrom,yearTo, mark, model);
+    public Long saveResults(SearchParamsDTO searchParamsDTO) {
+        Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMark(), searchParamsDTO.getModel());
         try {
-            storeResultsDummyList(getResults(queryId, yearFrom, yearTo, mark, model));
+            storeResultsDummyList(getResults(queryId, searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMark(), searchParamsDTO.getModel()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -165,42 +166,6 @@ public class CarValueService {
         CarQuery savedQuery =  carQueryRepository.saveAndFlush(carQuery);
         return savedQuery.getQueId();
     }
-
-
-
-//    public Client getExistingOrCreateNewClient(Long clientId) {
-//        Client client = null;
-//        if (clientId != null) {
-//            if (clientRepository.existsByClientId(clientId)) {
-//                client = clientRepository.findFirstByClientId(clientId);
-//                return client;
-//            } else {
-//                client = new Client();
-//                client.setClientId(clientId);
-//                clientRepository.saveAndFlush(client);
-//                return client;
-//            }
-//        }
-//        return client;
-//    }
-//
-//    public void storeClientDiscount(Client client, BigDecimal discountedPrice) {
-//        client.setDiscountedPrice(discountedPrice);
-//        clientRepository.saveAndFlush(client);
-//    }
-//
-//    public List<ClientDiscountDTO> getAllClients() {
-//        return clientRepository.findAll().stream()
-//                .map(client -> new ClientDiscountDTO(client.getClientId(), client.getDiscountedPrice()))
-//                .toList();
-//    }
-//
-//    public List<ClientDiscountDTO> getAllDiscountedClients() {
-//        return clientRepository.findAll().stream()
-//                .filter(client -> client.getDiscountedPrice() != null)
-//                .map(client -> new ClientDiscountDTO(client.getClientId(), client.getDiscountedPrice()))
-//                .toList();
-//    }
 
 
     }

@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import solution.app.data.SearchParamsDTO;
 import solution.app.data.carResultDTO;
 import solution.app.service.CarValueService;
 
@@ -23,35 +20,20 @@ import java.util.List;
 public class CarValueController {
     private final CarValueService carValueService;
 
-    @GetMapping(value = "/get-results")
+    @GetMapping("/get-results")
     public ResponseEntity<List<carResultDTO>> getQueryResults(@RequestParam Long query_id) {
     return ResponseEntity.ok(carValueService.getResults(query_id));
     }
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public ResponseEntity<List<carResultDTO>> getAll() {
         return ResponseEntity.ok(carValueService.getAll());
     }
 
     @PostMapping("/call-data")
-    public ResponseEntity<Long> getData(@RequestParam Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
-        return ResponseEntity.ok(carValueService.saveResults(yearFrom, yearTo, mark, model));
+    public ResponseEntity<Long> getData(@RequestBody SearchParamsDTO searchParamsDTO) throws IOException {
+        return ResponseEntity.ok(carValueService.saveResults(searchParamsDTO));
     }
 
 }
-//    @PostMapping(value = "/discount")
-//    public ResponseEntity<Void> storeClientDiscount(@RequestBody ClientDiscountDTO clientDiscountDTO) {
-//        Client client = clientService.getExistingOrCreateNewClient(clientDiscountDTO.getClientId());
-//        clientService.storeClientDiscount(client, clientDiscountDTO.getDiscountedPrice());
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @GetMapping(value = "/discount/all")
-//    public ResponseEntity<List<ClientDiscountDTO>> getAllDiscounted() {
-//        return ResponseEntity.ok(clientService.getAllDiscountedClients());
-//    }
-//
-//    @GetMapping(value = "/all")
-//    public ResponseEntity<List<ClientDiscountDTO>> getAllClients() {
-//        return ResponseEntity.ok(clientService.getAllClients());
-//    }
+
 

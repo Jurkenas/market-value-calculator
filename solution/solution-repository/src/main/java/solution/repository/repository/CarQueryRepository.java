@@ -7,7 +7,4 @@ import solution.repository.entity.Client;
 
 @Repository
 public interface CarQueryRepository extends JpaRepository<CarQuery, Long> {
-//    Client findFirstByClientId(Long clientId);
-
-//    boolean existsByClientId(Long clientId);
 }
