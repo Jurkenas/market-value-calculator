@@ -73,8 +73,12 @@ const data = [
 function CalculatedValuePageDetailsTable() {
   return (
     <Row>
-      <Col span={14} style={{ margin: 'auto', backgroundColor: 'white', marginTop: 10 }}>
-        <Title className={styles['title']} level={3} data-testid="home-page">
+      <Col span={14} className={styles['col']}>
+        <Title
+          className={styles['title']}
+          level={3}
+          data-testid="caltulated-value-details-table-page"
+        >
           Detali informacija
         </Title>
         <DetailsTable columns={columns} data={data} />

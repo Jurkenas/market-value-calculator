@@ -7,8 +7,8 @@ const { Title } = Typography;
 function CalculatedValuePage() {
   return (
     <Row>
-      <Col span={14} style={{ margin: 'auto', backgroundColor: 'white', padding: 20 }}>
-        <Title className={styles['title']} level={3} data-testid="home-page">
+      <Col span={14} className={styles['col']}>
+        <Title className={styles['title']} level={3} data-testid="calculated-value-page">
           Paskaičiuota automobilio vertė
         </Title>
         <Divider />
@@ -19,20 +19,8 @@ function CalculatedValuePage() {
         <Title level={5}>Kėbulo tipas: </Title>
         <Title level={5}>Pavarų dėžė: </Title>
         <Divider />
-        <Row
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Row
-            style={{
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'right',
-            }}
-          >
+        <Row className={styles['row']}>
+          <Row className={styles['row2']}>
             <Title level={5} style={{ margin: 0 }}>
               Vertė: 10 000 EUR (su PVM)
             </Title>
