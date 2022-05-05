@@ -59,14 +59,17 @@ public class CarValueService {
         carResultRepository.saveAndFlush(result);
     }
 
-    private String getUrl(Integer yearFrom, Integer yearTo, String mark, String model) {
+
+    private String getUrl(Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) {
+
         int x = 0;
+
         StringBuilder urlBuilder = new StringBuilder();
         String and = "&";
         String baseUrl = "https://autogidas.lt/skelbimai/automobiliai/?";
 
-
         urlBuilder.append(baseUrl);
+
         if (yearFrom != null) {
             String queryYearFrom = "f_41=" + yearFrom;
             urlBuilder.append(queryYearFrom);
@@ -96,11 +99,20 @@ public class CarValueService {
             urlBuilder.append(queryModel);
             x++;
         }
+        if (pageNumber != null) {
+            if (x != 0) {
+                urlBuilder.append(and);
+            }
+            String queryPageNumber = "page=" + pageNumber;
+            urlBuilder.append(queryPageNumber);
+            x++;
+        }
+
         return urlBuilder.toString();
     }
 
-    public List<CarResult> getResults(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
-        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model))
+    private List<CarResult> getResultWithUrl(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) throws IOException {
+        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model, pageNumber))
                 .timeout(6000).get();
 
         Elements body = doc.select("section.container");
@@ -118,19 +130,14 @@ public class CarValueService {
                 priceList.add(price);
 
         }
-
-
         for (Element e : body.select("div.item-description")) {
             String km = e.select("h3.primary").text() + ", " + e.select("h4.secondary").text();
             aboutList.add(km);
         }
-
-
         for (Element e : body.select("article.list-item")) {
             String URL = "https://autogidas.lt/" + (e.select("a").attr("href"));
             urlList.add(URL);
         }
-
         List<CarResult> carList = new ArrayList<>();
 
         for (int i = 0; i < priceList.size(); i++) {
@@ -141,9 +148,22 @@ public class CarValueService {
             car.setResQueId(queryId);
             carList.add(car);
         }
-
-
         return carList;
+    }
+
+    public List<CarResult> getResults(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
+
+        getResultWithUrl(queryId,yearFrom,yearTo,mark,model, 1);
+        List<CarResult> allCars =new ArrayList<>();
+        List<CarResult> tmpList;
+
+        for (int i = 1; i <10 ; i++) {
+            tmpList=getResultWithUrl(queryId,yearFrom,yearTo,mark,model, i);
+            if(tmpList.size()>0){
+                allCars.addAll(tmpList);
+            }else break;
+        }
+        return allCars;
     }
 
     public Long saveResults(SearchParamsDTO searchParamsDTO) {
