@@ -123,7 +123,8 @@ public class CarValueService {
 
 
         for (Element e : body.select("div.item-price")) {
-            String price = e.select("meta").attr("content");
+            String price = e.select("div").text();
+            price = price.replaceAll("[^\\d.]", "");
             if (price == "") {
                 priceList.add("0");
             } else
@@ -217,31 +218,6 @@ public class CarValueService {
         return average;
     }
     public QueryResultDTO getQueryResult(List<CarResultDTO> carResultDTO, Long queryId){
-//        int counter=0;
-//        int allCars=0;
-//        BigDecimal sum=BigDecimal.ZERO;
-//        BigDecimal average=BigDecimal.ZERO;
-
-//        for (int i = 0; i < carResultDTO.size(); i++) {
-//
-//            BigDecimal tmp;
-//            if (carResultDTO.get(i).getPrice()!=null){
-//                tmp = carResultDTO.get(i).getPrice();
-//                sum.add(tmp);
-//                counter++;
-//            }
-//            if(carResultDTO.get(i).getPrice()!=null){
-//                allCars=carResultDTO.size() - counter;
-//            }
-//        }
-//
-//        average=sum.divide(BigDecimal.valueOf(allCars));
-//        average.setScale(2, BigDecimal.ROUND_UP);
-//
-//        QueryResult queryResult = new QueryResult();
-//
-//        queryResult.setCarList(carResultDTO);
-//
         QueryResultDTO queryResult = new QueryResultDTO();
         queryResult.setAveragePrice(getAverage(carResultDTO));
         queryResult.setCarList(carResultDTO);
