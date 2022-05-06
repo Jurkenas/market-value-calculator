@@ -27,6 +27,10 @@ public class CarQuery {
     private String make;
     @Column(name = "model")
     private String model;
+    @Column(name = "bodyType")
+    private String bodyType;
+    @Column(name = "gearBox")
+    private String gearBox;
     @Column(name = "fuel")
     private String fuel;
     @Column(name = "makeDateFrom")

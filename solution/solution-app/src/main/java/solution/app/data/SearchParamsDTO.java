@@ -10,9 +10,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class SearchParamsDTO {
-    private Integer yearFrom;
-    private Integer yearTo;
+    private Long yearFrom;
+    private Long yearTo;
     private String make;
     private String model;
+    private String bodyType;
+    private String fuel;
+    private String gearBox;
+
 
 }
