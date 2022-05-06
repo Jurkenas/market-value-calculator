@@ -26,6 +26,9 @@ type SearchParameter = {
   yearTo: number;
   make: string;
   model: string;
+  bodyType: string;
+  fuel: string;
+  gearBox: string;
 };
 
 export type MarketValueData = {

@@ -34,23 +34,21 @@ function DatePicker({ id, name, isValid, dataTestId, onChange }: DatePickerProps
   }, [selectedDate]);
 
   return (
-    <span className={error}>
-      <ReactDatePicker
-        id={id}
-        name={name}
-        className="ant-input"
-        placeholderText="Select date"
-        dateFormat="yyyy"
-        maxDate={new Date()}
-        locale={en}
-        showYearPicker
-        selected={selectedDate}
-        onChange={(date: Date) => handleChange(date)}
-        onSelect={(date: Date) => handleChange(date)}
-        autoComplete="off"
-        customInput={<input data-testid={dataTestId} />}
-      />
-    </span>
+    <ReactDatePicker
+      id={id}
+      name={name}
+      className="ant-input"
+      placeholderText="Select date"
+      dateFormat="yyyy"
+      maxDate={new Date()}
+      locale={en}
+      showYearPicker
+      selected={selectedDate}
+      onChange={(date: Date) => handleChange(date)}
+      onSelect={(date: Date) => handleChange(date)}
+      autoComplete="off"
+      customInput={<input data-testid={dataTestId} />}
+    />
   );
 }
 

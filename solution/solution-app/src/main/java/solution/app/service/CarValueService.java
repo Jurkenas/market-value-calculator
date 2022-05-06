@@ -109,7 +109,7 @@ public class CarValueService {
             urlBuilder.append(queryPageNumber);
             x++;
         }
-        if (pageNumber != null) {
+        if (bodyType != null) {
             if (x != 0) {
                 urlBuilder.append(and);
             }
@@ -117,7 +117,7 @@ public class CarValueService {
             urlBuilder.append(queryBodyType);
             x++;
         }
-        if (pageNumber != null) {
+        if (fuel != null) {
             if (x != 0) {
                 urlBuilder.append(and);
             }
@@ -125,7 +125,7 @@ public class CarValueService {
             urlBuilder.append(queryFuel);
             x++;
         }
-        if (pageNumber != null) {
+        if (gearBox != null) {
             if (x != 0) {
                 urlBuilder.append(and);
             }
@@ -184,7 +184,7 @@ public class CarValueService {
         List<CarResult> allCars =new ArrayList<>();
         List<CarResult> tmpList;
 
-        for (int i = 1; i <10 ; i++) {
+        for (int i = 1; i < 1000 ; i++) {
             tmpList=getResultWithUrl(queryId,yearFrom,yearTo,mark,model,bodyType, fuel, gearBox, i);
             if(tmpList.size()>0){
                 allCars.addAll(tmpList);

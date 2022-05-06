@@ -5,6 +5,19 @@
   @include amount-input;
 }
 
-.error {
-  @include form-error;
+:global {
+  .ant-select {
+    width: 100%;
+  }
+
+  .year-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    label,
+    .react-datepicker-wrapper {
+      flex-basis: 49%;
+    }
+  }
 }

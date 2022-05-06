@@ -20,6 +20,9 @@ function Success({ onSubmit, data }: SuccessProps) {
       </h2>
       <h2>{`${data.searchParams.make} ${data.searchParams.model}`}</h2>
       <h2>{`${data.searchParams.yearFrom}-${data.searchParams.yearTo}`}</h2>
+      {data.searchParams.fuel ? <h2>{data.searchParams.fuel}</h2> : null}
+      {data.searchParams.bodyType ? <h2>{data.searchParams.bodyType}</h2> : null}
+      {data.searchParams.gearBox ? <h2>{data.searchParams.gearBox}</h2> : null}
     </>
   );
 }
