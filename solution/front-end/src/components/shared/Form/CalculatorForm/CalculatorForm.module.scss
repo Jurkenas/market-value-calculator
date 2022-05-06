@@ -1,0 +1,10 @@
+@import '../../../../commons/styles/colors';
+@import '../../../../commons/styles/forms';
+
+.amount {
+  @include amount-input;
+}
+
+.error {
+  @include form-error;
+}

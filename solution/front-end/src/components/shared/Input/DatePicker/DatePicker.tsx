@@ -40,9 +40,10 @@ function DatePicker({ id, name, isValid, dataTestId, onChange }: DatePickerProps
         name={name}
         className="ant-input"
         placeholderText="Select date"
-        dateFormat="yyyy-MM-dd"
+        dateFormat="yyyy"
         maxDate={new Date()}
         locale={en}
+        showYearPicker
         selected={selectedDate}
         onChange={(date: Date) => handleChange(date)}
         onSelect={(date: Date) => handleChange(date)}
