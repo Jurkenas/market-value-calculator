@@ -12,12 +12,6 @@ interface CalculatorFormProps {
   handleSubmit: (values: Client) => void;
 }
 
-// const options = [
-//   { value: 'Burns Bay Road' },
-//   { value: 'Downing Street' },
-//   { value: 'Wall Street' },
-// ];
-
 function CalculatorForm({ handleSubmit }: CalculatorFormProps) {
   return (
     <span data-testid="client-discount-form-container">

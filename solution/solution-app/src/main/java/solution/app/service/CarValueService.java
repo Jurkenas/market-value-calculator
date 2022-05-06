@@ -169,7 +169,7 @@ public class CarValueService {
         return allCars;
     }
 
-    public Long saveResults(SearchParamsDTO searchParamsDTO) {
+    public QueryResultDTO saveResults(SearchParamsDTO searchParamsDTO) {
         Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel());
         try {
             storeResultsDummyList(getResults(queryId, searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel()));
@@ -177,7 +177,7 @@ public class CarValueService {
             throw new RuntimeException(e);
         }
 
-        return queryId;
+        return getResults(queryId);
     }
 
     public Long saveCarQuery(Integer yearFrom, Integer yearTo, String mark, String model) {
@@ -215,7 +215,7 @@ public class CarValueService {
         }
         allCars=carResultDTO.size() - counter;
 
-        average=sum.divide(BigDecimal.valueOf(allCars), 2, RoundingMode.HALF_UP);
+        average=sum.divide(BigDecimal.valueOf(allCars), 0, RoundingMode.HALF_UP);
 
         return average;
     }
