@@ -34,6 +34,7 @@ public class CarValueService {
         return getQueryResult(carResultRepository.getAllByResQueId(queryId).stream()
                 .map(result ->
                         CarResultDTO.builder()
+                                .id(result.getRes_id())
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
@@ -44,6 +45,7 @@ public class CarValueService {
     public List<CarResultDTO> getAll() {
         return carResultRepository.findAll().stream().map(result ->
                         CarResultDTO.builder()
+                                .id(result.getRes_id())
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
