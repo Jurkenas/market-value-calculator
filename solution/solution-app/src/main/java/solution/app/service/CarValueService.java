@@ -62,7 +62,7 @@ public class CarValueService {
     }
 
 
-    private String getUrl(Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) {
+    private String getUrl(Long yearFrom, Long yearTo, String mark, String model, String bodyType, String fuel, String gearBox, Integer pageNumber) {
 
         int x = 0;
 
@@ -109,12 +109,37 @@ public class CarValueService {
             urlBuilder.append(queryPageNumber);
             x++;
         }
+        if (pageNumber != null) {
+            if (x != 0) {
+                urlBuilder.append(and);
+            }
+            String queryBodyType = "f_3[]=" + bodyType;
+            urlBuilder.append(queryBodyType);
+            x++;
+        }
+        if (pageNumber != null) {
+            if (x != 0) {
+                urlBuilder.append(and);
+            }
+            String queryFuel = "f_2[]=" + fuel;
+            urlBuilder.append(queryFuel);
+            x++;
+        }
+        if (pageNumber != null) {
+            if (x != 0) {
+                urlBuilder.append(and);
+            }
+            String queryGearBox = "f_10=" + gearBox;
+            urlBuilder.append(queryGearBox);
+            x++;
+        }
+//        f_3[]=Sedanas&f_2[]=Dyzelinas&f_10=Automatinė
 
         return urlBuilder.toString();
     }
 
-    private List<CarResult> getResultWithUrl(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) throws IOException {
-        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model, pageNumber))
+    private List<CarResult> getResultWithUrl(Long queryId, Long yearFrom, Long yearTo, String mark, String model,String bodyType, String fuel, String gearBox, Integer pageNumber) throws IOException {
+        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model, bodyType, fuel, gearBox, pageNumber))
                 .timeout(6000).get();
 
         Elements body = doc.select("section.container");
@@ -154,14 +179,13 @@ public class CarValueService {
         return carList;
     }
 
-    public List<CarResult> getResults(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
+    public List<CarResult> getResults(Long queryId, Long yearFrom, Long yearTo, String mark,String model,String bodyType, String fuel, String gearBox) throws IOException {
 
-        getResultWithUrl(queryId,yearFrom,yearTo,mark,model, 1);
         List<CarResult> allCars =new ArrayList<>();
         List<CarResult> tmpList;
 
         for (int i = 1; i <10 ; i++) {
-            tmpList=getResultWithUrl(queryId,yearFrom,yearTo,mark,model, i);
+            tmpList=getResultWithUrl(queryId,yearFrom,yearTo,mark,model,bodyType, fuel, gearBox, i);
             if(tmpList.size()>0){
                 allCars.addAll(tmpList);
             }else break;
@@ -170,9 +194,9 @@ public class CarValueService {
     }
 
     public QueryResultDTO saveResults(SearchParamsDTO searchParamsDTO) {
-        Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel());
+        Long queryId = saveCarQuery(searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel(),searchParamsDTO.getBodyType(), searchParamsDTO.getFuel(), searchParamsDTO.getGearBox());
         try {
-            storeResultsDummyList(getResults(queryId, searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel()));
+            storeResultsDummyList(getResults(queryId ,searchParamsDTO.getYearFrom(), searchParamsDTO.getYearTo(), searchParamsDTO.getMake(), searchParamsDTO.getModel(), searchParamsDTO.getBodyType(), searchParamsDTO.getFuel(), searchParamsDTO.getGearBox()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -180,22 +204,19 @@ public class CarValueService {
         return getResults(queryId);
     }
 
-    public Long saveCarQuery(Integer yearFrom, Integer yearTo, String mark, String model) {
+    public Long saveCarQuery(Long yearFrom, Long yearTo, String mark, String model, String bodyType, String fuel, String gearBox ) {
         CarQuery carQuery = new CarQuery();
-        carQuery.setMakeDateFrom(Long.valueOf(yearFrom));
-        carQuery.setMakeDateTo(Long.valueOf(yearTo));
+        carQuery.setMakeDateFrom(yearFrom);
+        carQuery.setMakeDateTo(yearTo);
         carQuery.setMake(mark);
         carQuery.setModel(model);
+        carQuery.setBodyType(bodyType);
+        carQuery.setFuel(fuel);
+        carQuery.setGearBox(gearBox);
         CarQuery savedQuery =  carQueryRepository.saveAndFlush(carQuery);
         return savedQuery.getQueId();
     }
 
-//    private Integer getAverageStrems(List<CarResultDTO> carResultDTO){
-//        return carResultDTO.stream()
-//                .filter(result -> result.getPrice()!= new BigDecimal("0.00"))
-//                .mapToInt(result -> result.getPrice():: intValue)
-//                .average();
-//    }
     private BigDecimal getAverage(List<CarResultDTO> carResultDTO){
         int counter=0;
         int allCars=0;
@@ -215,7 +236,9 @@ public class CarValueService {
         }
         allCars=carResultDTO.size() - counter;
 
+        if (allCars!=0){
         average=sum.divide(BigDecimal.valueOf(allCars), 0, RoundingMode.HALF_UP);
+        }
 
         return average;
     }
@@ -227,10 +250,13 @@ public class CarValueService {
 
         CarQuery carQuery=carQueryRepository.findFirstByQueId(queryId);
         queryResult.setSearchParams(SearchParamsDTO.builder()
-                        .yearFrom(Math.toIntExact(carQuery.getMakeDateFrom()))
-                        .yearTo(Math.toIntExact(carQuery.getMakeDateTo()))
+                        .yearFrom(carQuery.getMakeDateFrom())
+                        .yearTo(carQuery.getMakeDateTo())
                         .make(carQuery.getMake())
                         .model(carQuery.getModel())
+                        .bodyType(carQuery.getBodyType())
+                        .fuel(carQuery.getFuel())
+                        .gearBox(carQuery.getGearBox())
                 .build());
         return queryResult;
     }
