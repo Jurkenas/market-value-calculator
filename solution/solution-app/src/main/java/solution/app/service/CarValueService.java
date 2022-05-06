@@ -34,6 +34,7 @@ public class CarValueService {
         return getQueryResult(carResultRepository.getAllByResQueId(queryId).stream()
                 .map(result ->
                         CarResultDTO.builder()
+                                .id(result.getRes_id())
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
@@ -44,6 +45,7 @@ public class CarValueService {
     public List<CarResultDTO> getAll() {
         return carResultRepository.findAll().stream().map(result ->
                         CarResultDTO.builder()
+                                .id(result.getRes_id())
                                 .description(result.getDescription())
                                 .price(result.getPrice())
                                 .url(result.getUrl())
@@ -59,14 +61,17 @@ public class CarValueService {
         carResultRepository.saveAndFlush(result);
     }
 
-    private String getUrl(Integer yearFrom, Integer yearTo, String mark, String model) {
+
+    private String getUrl(Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) {
+
         int x = 0;
+
         StringBuilder urlBuilder = new StringBuilder();
         String and = "&";
         String baseUrl = "https://autogidas.lt/skelbimai/automobiliai/?";
 
-
         urlBuilder.append(baseUrl);
+
         if (yearFrom != null) {
             String queryYearFrom = "f_41=" + yearFrom;
             urlBuilder.append(queryYearFrom);
@@ -96,11 +101,20 @@ public class CarValueService {
             urlBuilder.append(queryModel);
             x++;
         }
+        if (pageNumber != null) {
+            if (x != 0) {
+                urlBuilder.append(and);
+            }
+            String queryPageNumber = "page=" + pageNumber;
+            urlBuilder.append(queryPageNumber);
+            x++;
+        }
+
         return urlBuilder.toString();
     }
 
-    public List<CarResult> getResults(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
-        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model))
+    private List<CarResult> getResultWithUrl(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model, Integer pageNumber) throws IOException {
+        org.jsoup.nodes.Document doc = Jsoup.connect(getUrl(yearFrom, yearTo, mark, model, pageNumber))
                 .timeout(6000).get();
 
         Elements body = doc.select("section.container");
@@ -111,26 +125,22 @@ public class CarValueService {
 
 
         for (Element e : body.select("div.item-price")) {
-            String price = e.select("meta").attr("content");
+            String price = e.select("div").text();
+            price = price.replaceAll("[^\\d.]", "");
             if (price == "") {
                 priceList.add("0");
             } else
                 priceList.add(price);
 
         }
-
-
         for (Element e : body.select("div.item-description")) {
             String km = e.select("h3.primary").text() + ", " + e.select("h4.secondary").text();
             aboutList.add(km);
         }
-
-
         for (Element e : body.select("article.list-item")) {
             String URL = "https://autogidas.lt/" + (e.select("a").attr("href"));
             urlList.add(URL);
         }
-
         List<CarResult> carList = new ArrayList<>();
 
         for (int i = 0; i < priceList.size(); i++) {
@@ -141,9 +151,22 @@ public class CarValueService {
             car.setResQueId(queryId);
             carList.add(car);
         }
-
-
         return carList;
+    }
+
+    public List<CarResult> getResults(Long queryId, Integer yearFrom, Integer yearTo, String mark, String model) throws IOException {
+
+        getResultWithUrl(queryId,yearFrom,yearTo,mark,model, 1);
+        List<CarResult> allCars =new ArrayList<>();
+        List<CarResult> tmpList;
+
+        for (int i = 1; i <10 ; i++) {
+            tmpList=getResultWithUrl(queryId,yearFrom,yearTo,mark,model, i);
+            if(tmpList.size()>0){
+                allCars.addAll(tmpList);
+            }else break;
+        }
+        return allCars;
     }
 
     public Long saveResults(SearchParamsDTO searchParamsDTO) {
@@ -197,31 +220,6 @@ public class CarValueService {
         return average;
     }
     public QueryResultDTO getQueryResult(List<CarResultDTO> carResultDTO, Long queryId){
-//        int counter=0;
-//        int allCars=0;
-//        BigDecimal sum=BigDecimal.ZERO;
-//        BigDecimal average=BigDecimal.ZERO;
-
-//        for (int i = 0; i < carResultDTO.size(); i++) {
-//
-//            BigDecimal tmp;
-//            if (carResultDTO.get(i).getPrice()!=null){
-//                tmp = carResultDTO.get(i).getPrice();
-//                sum.add(tmp);
-//                counter++;
-//            }
-//            if(carResultDTO.get(i).getPrice()!=null){
-//                allCars=carResultDTO.size() - counter;
-//            }
-//        }
-//
-//        average=sum.divide(BigDecimal.valueOf(allCars));
-//        average.setScale(2, BigDecimal.ROUND_UP);
-//
-//        QueryResult queryResult = new QueryResult();
-//
-//        queryResult.setCarList(carResultDTO);
-//
         QueryResultDTO queryResult = new QueryResultDTO();
         queryResult.setAveragePrice(getAverage(carResultDTO));
         queryResult.setCarList(carResultDTO);
