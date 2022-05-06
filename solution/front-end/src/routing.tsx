@@ -31,7 +31,10 @@ export const routes = (
   </Routes>
 );
 
-export const menuItems: MenuItem[] = [{ label: 'Skaičiuoklė', path: MARKET_VALUE_CALCULATOR_PAGE }];
+export const menuItems: MenuItem[] = [
+  { label: 'Pradžia', path: HOME_PAGE_PATH },
+  { label: 'Skaičiuoklė', path: MARKET_VALUE_CALCULATOR_PAGE },
+];
 
 const history = createBrowserHistory();
 

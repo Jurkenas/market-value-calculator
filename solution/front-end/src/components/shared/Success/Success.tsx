@@ -12,7 +12,7 @@ interface SuccessProps {
 function Success({ onSubmit, data }: SuccessProps) {
   return (
     <>
-      <h2>Success!</h2>
+      <h2>Apskaičiuota!</h2>
       <h2>
         Vidutinė rinkos kaina:&nbsp;
         <strong>{data.averagePrice}</strong>
@@ -20,13 +20,6 @@ function Success({ onSubmit, data }: SuccessProps) {
       </h2>
       <h2>{`${data.searchParams.make} ${data.searchParams.model}`}</h2>
       <h2>{`${data.searchParams.yearFrom}-${data.searchParams.yearTo}`}</h2>
-      {/* {data.carList.map((value) => (
-        <div>
-          <h2>{value.description}</h2>
-          <h2>{value.price}</h2>
-          <h2>{value.url}</h2>
-        </div>
-      ))} */}
     </>
   );
 }
